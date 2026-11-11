@@ -1,0 +1,196 @@
+% AIM60k: all axioms occurring in the problems, with their names.
+% Every problem lists its axioms in the order of this file.
+% Symbols: e = identity (1), m = product (*), ld = left division (\), rd = right division (/),
+%          a = associator, k = commutator (K), l, r, t = inner mappings L, R, T.
+% Comments give the number of problems containing the axiom and, for hypotheses, the label
+% in R. Veroff's Prover9 input files (derived: none found, named by the aa1{xi/xj} convention).
+
+% --- in every problem ---
+% loop: left identity
+cnf(left_id,axiom,m(e,A) = A).
+% loop: right identity
+cnf(right_id,axiom,m(A,e) = A).
+% loop: left division
+cnf(ld_cancel,axiom,ld(A,m(A,B)) = B).
+% loop: left division
+cnf(ld_mult,axiom,m(A,ld(A,B)) = B).
+% loop: right division
+cnf(rd_cancel,axiom,rd(m(A,B),B) = A).
+% loop: right division
+cnf(rd_mult,axiom,m(rd(A,B),B) = A).
+% associator
+cnf(def_a,axiom,a(A,B,C) = ld(m(A,m(B,C)),m(m(A,B),C))).
+% commutator
+cnf(def_k,axiom,k(A,B) = ld(m(B,A),m(A,B))).
+% left inner mapping L
+cnf(def_l,axiom,l(A,B,C) = ld(m(C,B),m(C,m(B,A)))).
+% right inner mapping R
+cnf(def_r,axiom,r(A,B,C) = rd(m(m(A,B),C),m(B,C))).
+% middle inner mapping T
+cnf(def_t,axiom,t(A,B) = ld(B,m(A,B))).
+% AIM-TT condition
+cnf(aim_tt,axiom,t(t(A,B),C) = t(t(A,C),B)).
+% abelian inner mapping group
+cnf(aim_tl,axiom,l(t(A,B),C,D) = t(l(A,C,D),B)).
+% abelian inner mapping group
+cnf(aim_tr,axiom,r(t(A,B),C,D) = t(r(A,C,D),B)).
+% abelian inner mapping group
+cnf(aim_lr,axiom,r(l(A,B,C),D,E) = l(r(A,D,E),B,C)).
+% abelian inner mapping group
+cnf(aim_ll,axiom,l(l(A,B,C),D,E) = l(l(A,D,E),B,C)).
+% abelian inner mapping group
+cnf(aim_rr,axiom,r(r(A,B,C),D,E) = r(r(A,D,E),B,C)).
+
+% --- hypotheses of particular originals ---
+% 645 problems, label: aa1
+cnf(aa1,axiom,a(a(A,B,C),D,E) = e).
+% 570 problems, label: aa1_34
+cnf(aa1_34,axiom,a(a(A,B,C),D,E) = a(a(A,B,D),C,E)).
+% 7298 problems, label: aa1_45
+cnf(aa1_45,axiom,a(a(A,B,C),D,E) = a(a(A,B,C),E,D)).
+% 549 problems, label: aa1 squared
+cnf(aa1_sq,axiom,m(a(a(A,B,C),D,E),a(a(A,B,C),D,E)) = e).
+% 468 problems, label: aa1{x1/x2}
+cnf(aa1_x1x2,axiom,a(a(A,A,B),C,D) = e).
+% 293 problems, label: aa1{x1/x3}
+cnf(aa1_x1x3,axiom,a(a(A,B,A),C,D) = e).
+% 448 problems, label: aa1{x1/x4} (derived)
+cnf(aa1_x1x4,axiom,a(a(A,B,C),A,D) = e).
+% 293 problems, label: aa1{x1/x5}
+cnf(aa1_x1x5,axiom,a(a(A,B,C),D,A) = e).
+% 468 problems, label: aa1{x2/x3}
+cnf(aa1_x2x3,axiom,a(a(A,B,B),C,D) = e).
+% 293 problems, label: aa1{x2/x4} (derived)
+cnf(aa1_x2x4,axiom,a(a(A,B,C),B,D) = e).
+% 293 problems, label: aa1{x2/x5} (derived)
+cnf(aa1_x2x5,axiom,a(a(A,B,C),D,B) = e).
+% 992 problems, label: aa1{x3/x4}
+cnf(aa1_x3x4,axiom,a(a(A,B,C),C,D) = e).
+% 293 problems, label: aa1{x3/x5} (derived)
+cnf(aa1_x3x5,axiom,a(a(A,B,C),D,C) = e).
+% 293 problems, label: aa1{x4/x5} (derived)
+cnf(aa1_x4x5,axiom,a(a(A,B,C),D,D) = e).
+% 326 problems, label: aa2
+cnf(aa2,axiom,a(A,a(B,C,D),E) = e).
+% 175 problems, label: aa2{x2/x3}
+cnf(aa2_x2x3,axiom,a(A,a(B,B,C),D) = e).
+% 175 problems, label: aa2{x3/x4}
+cnf(aa2_x3x4,axiom,a(A,a(B,C,C),D) = e).
+% 501 problems, label: aa2{x4/x5}
+cnf(aa2_x4x5,axiom,a(A,a(B,C,D),D) = e).
+% 603 problems, label: aa3{x2/x3}
+cnf(aa3_x2x3,axiom,a(A,B,a(B,C,D)) = e).
+% 175 problems, label: aa3{x3/x4}
+cnf(aa3_x3x4,axiom,a(A,B,a(C,C,D)) = e).
+% 175 problems, label: aa3{x4/x5}
+cnf(aa3_x4x5,axiom,a(A,B,a(C,D,D)) = e).
+% 529 problems, label: AAIP
+cnf(aaip,axiom,m(rd(e,A),rd(e,B)) = rd(e,m(B,A))).
+% 801 problems, label: AIP
+cnf(aip,axiom,m(rd(e,A),rd(e,B)) = rd(e,m(A,B))).
+% 2217 problems, label: aK1
+cnf(ak1,axiom,a(k(A,B),C,D) = e).
+% 584 problems, label: aK1_1324
+cnf(ak1_1324,axiom,a(k(A,B),C,D) = a(k(A,C),B,D)).
+% 531 problems, label: aK2
+cnf(ak2,axiom,a(A,k(B,C),D) = e).
+% 434 problems, label: aK2_eq_aK3 (1234)
+cnf(ak2_eq_ak3_1234,axiom,a(A,k(B,C),D) = a(A,B,k(C,D))).
+% 421 problems, label: aK2_eq_aK3 (1243)
+cnf(ak2_eq_ak3_1243,axiom,a(A,k(B,C),D) = a(A,B,k(D,C))).
+% 412 problems, label: aK3
+cnf(ak3,axiom,a(A,B,k(C,D)) = e).
+% 414 problems, label: aK3 instance
+cnf(ak3_inst,axiom,a(A,m(B,ld(ld(l(C,B,A),e),t(m(ld(l(C,B,A),e),C),D))),k(D,ld(l(C,B,A),e))) = e).
+% 493 problems, label: Commutativity
+cnf(commutativity,axiom,m(A,B) = m(B,A)).
+% 405 problems, label: DWIP
+cnf(dwip,axiom,m(ld(m(A,B),e),ld(ld(A,e),e)) = ld(B,e)).
+% 273 problems, label: flex
+cnf(flex,axiom,m(m(A,B),A) = m(A,m(B,A))).
+% 1630 problems, label: gen left Bol
+cnf(gen_left_bol,axiom,m(m(A,m(B,A)),m(rd(e,A),C)) = m(A,m(B,C))).
+% 1225 problems, label: gen right Bol
+cnf(gen_right_bol,axiom,m(m(A,ld(B,e)),m(m(B,C),B)) = m(m(A,C),B)).
+% 507 problems, label: imord2 L
+cnf(imord2_l,axiom,l(l(A,B,C),B,C) = A).
+% 507 problems, label: imord2 R
+cnf(imord2_r,axiom,r(r(A,B,C),B,C) = A).
+% 921 problems, label: imord2 T
+cnf(imord2_t,axiom,t(t(A,B),B) = A).
+% 412 problems, label: Ka
+cnf(ka,axiom,k(a(A,B,C),D) = e).
+% 1865 problems, label: Kcom
+cnf(kcom,axiom,k(A,B) = k(B,A)).
+% 1237 problems, label: KK
+cnf(kk,axiom,k(k(A,B),C) = e).
+% 99 problems, label: L1dist
+cnf(l1dist,axiom,m(l(A,B,C),l(D,B,C)) = l(m(A,D),B,C)).
+% 254 problems, label: LC
+cnf(lc,axiom,m(m(A,m(A,B)),C) = m(A,m(A,m(B,C)))).
+% 77 problems, label: left Bol
+cnf(left_bol,axiom,m(m(A,m(B,A)),C) = m(A,m(B,m(A,C)))).
+% 594 problems, label: LIP
+cnf(lip,axiom,m(rd(e,A),m(A,B)) = B).
+% 9395 problems, label: middle Bol
+cnf(middle_bol,axiom,m(rd(A,B),ld(C,A)) = m(A,ld(m(C,B),A))).
+% 523 problems, label: nil3 1, KK-C
+cnf(nil3_1,axiom,k(A,k(B,k(C,D))) = e).
+% 523 problems, label: nil3 2, Ka-C
+cnf(nil3_2,axiom,k(k(A,a(B,C,D)),E) = e).
+% 523 problems, label: nil3 3, aK1-C
+cnf(nil3_3,axiom,k(a(k(A,B),C,D),E) = e).
+% 523 problems, label: nil3 4, aK2-C
+cnf(nil3_4,axiom,k(a(A,k(B,C),D),E) = e).
+% 523 problems, label: nil3 5, aK3-C
+cnf(nil3_5,axiom,k(a(A,B,k(C,D)),E) = e).
+% 392 problems, label: nil3 7, aa2-C
+cnf(nil3_7,axiom,k(a(A,a(B,C,D),E),F) = e).
+% 523 problems, label: nil3 9, KK-Nl
+cnf(nil3_9,axiom,a(k(A,k(B,C)),D,E) = e).
+% 523 problems, label: nil3 10, KK-Nm
+cnf(nil3_10,axiom,a(A,k(B,k(C,D)),E) = e).
+% 523 problems, label: nil3 11, KK-Nr
+cnf(nil3_11,axiom,a(A,B,k(C,k(D,E))) = e).
+% 3488 problems, label: nil3 15, aK1-Nl
+cnf(nil3_15,axiom,a(a(k(A,B),C,D),E,F) = e).
+% 1481 problems, label: nil3 18, aK1-Nm
+cnf(nil3_18,axiom,a(A,a(k(B,C),D,E),F) = e).
+% 4492 problems, label: nil3 23, aK3-Nr
+cnf(nil3_23,axiom,a(A,B,a(C,D,k(E,F))) = e).
+% 2616 problems, label: nil3 24, aa1-Nl
+cnf(nil3_24,axiom,a(a(a(A,B,C),D,E),F,V6) = e).
+% 803 problems, label: nil3 25, aa2-Nl
+cnf(nil3_25,axiom,a(a(A,a(B,C,D),E),F,V6) = e).
+% 686 problems, label: nil3 26, aa3-Nl
+cnf(nil3_26,axiom,a(a(A,B,a(C,D,E)),F,V6) = e).
+% 801 problems, label: nil3 27, aa1-Nm
+cnf(nil3_27,axiom,a(A,a(a(B,C,D),E,F),V6) = e).
+% 766 problems, label: nil3 28, aa2-Nm
+cnf(nil3_28,axiom,a(A,a(B,a(C,D,E),F),V6) = e).
+% 786 problems, label: nil3 29, aa3-Nm
+cnf(nil3_29,axiom,a(A,a(B,C,a(D,E,F)),V6) = e).
+% 386 problems, label: nil3 30, aa1-Nr
+cnf(nil3_30,axiom,a(A,B,a(a(C,D,E),F,V6)) = e).
+% 386 problems, label: nil3 31, aa2-Nr
+cnf(nil3_31,axiom,a(A,B,a(C,a(D,E,F),V6)) = e).
+% 3943 problems, label: nil3 32, aa3-Nr
+cnf(nil3_32,axiom,a(A,B,a(C,D,a(E,F,V6))) = e).
+% 4801 problems, label: NucSq_l
+cnf(nucsq_l,axiom,m(m(m(A,A),B),C) = m(m(A,A),m(B,C))).
+% 5807 problems, label: NucSq_m
+cnf(nucsq_m,axiom,m(m(A,m(B,B)),C) = m(A,m(m(B,B),C))).
+% 5060 problems, label: NucSq_r
+cnf(nucsq_r,axiom,m(m(A,B),m(C,C)) = m(A,m(B,m(C,C)))).
+% 867 problems, label: Osborn
+cnf(osborn,axiom,m(ld(rd(e,A),B),m(C,A)) = m(A,m(m(B,C),A))).
+% 667 problems, label: R1dist
+cnf(r1dist,axiom,m(r(A,B,C),r(D,B,C)) = r(m(A,D),B,C)).
+% 413 problems, label: Ralt
+cnf(ralt,axiom,m(m(A,B),B) = m(A,m(B,B))).
+% 260 problems, label: RIF
+cnf(rif,axiom,m(m(m(A,m(B,C)),A),B) = m(m(A,B),m(C,m(A,B)))).
+% 79 problems, label: UFlex
+cnf(uflex,axiom,m(rd(m(rd(A,B),ld(C,D)),B),ld(C,A)) = m(rd(A,B),ld(C,m(rd(D,B),ld(C,A))))).
+% 420 problems, label: WIP
+cnf(wip,axiom,m(A,ld(m(B,A),e)) = ld(B,e)).
