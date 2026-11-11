@@ -1,43 +1,31 @@
+% AIM60k problem metabelian__goal_294: goal 294 of original metabelian, proof line 1982.
+% Axiom names and symbols: see axioms.ax.
 
-% The LADR formulas contain function or predicate symbols
-% that are not legal TPTP symbols, and we have replaced those
-% symbols with new symbols.  Here is the list of the unaccepted
-% symbols and the corresponding replacements.
-%
-%   (arity 0)        1    e
-%   (arity 2)        K    k
-%   (arity 2)        \    ld
-%   (arity 2)        *    m
-%   (arity 3)        L    l
-%   (arity 3)        R    r
-%   (arity 2)        T    t
-%   (arity 2)        /    rd
-
-cnf(sos,axiom,m(e,A) = A).
-cnf(sos,axiom,m(A,e) = A).
-cnf(sos,axiom,ld(A,m(A,B)) = B).
-cnf(sos,axiom,m(A,ld(A,B)) = B).
-cnf(sos,axiom,rd(m(A,B),B) = A).
-cnf(sos,axiom,m(rd(A,B),B) = A).
-cnf(sos,axiom,a(A,B,C) = ld(m(A,m(B,C)),m(m(A,B),C))).
-cnf(sos,axiom,k(A,B) = ld(m(B,A),m(A,B))).
-cnf(sos,axiom,l(A,B,C) = ld(m(C,B),m(C,m(B,A)))).
-cnf(sos,axiom,r(A,B,C) = rd(m(m(A,B),C),m(B,C))).
-cnf(sos,axiom,t(A,B) = ld(B,m(A,B))).
-cnf(sos,axiom,t(t(A,B),C) = t(t(A,C),B)).
-cnf(sos,axiom,l(t(A,B),C,D) = t(l(A,C,D),B)).
-cnf(sos,axiom,r(t(A,B),C,D) = t(r(A,C,D),B)).
-cnf(sos,axiom,r(l(A,B,C),D,E) = l(r(A,D,E),B,C)).
-cnf(sos,axiom,l(l(A,B,C),D,E) = l(l(A,D,E),B,C)).
-cnf(sos,axiom,r(r(A,B,C),D,E) = r(r(A,D,E),B,C)).
-cnf(sos,axiom,a(a(k(A,B),C,D),E,F) = e).
-cnf(sos,axiom,a(a(a(A,B,C),D,E),F,V6) = e).
-cnf(sos,axiom,a(a(A,a(B,C,D),E),F,V6) = e).
-cnf(sos,axiom,a(a(A,B,a(C,D,E)),F,V6) = e).
-cnf(sos,axiom,a(A,a(a(B,C,D),E,F),V6) = e).
-cnf(sos,axiom,a(A,a(B,a(C,D,E),F),V6) = e).
-cnf(sos,axiom,a(A,a(B,C,a(D,E,F)),V6) = e).
-cnf(sos,axiom,a(A,B,a(a(C,D,E),F,V6)) = e).
-cnf(sos,axiom,a(A,B,a(C,a(D,E,F),V6)) = e).
-cnf(sos,axiom,a(A,B,a(C,D,a(E,F,V6))) = e).
-fof(goals,conjecture,! [X0] : ! [X1] : m(k(ld(X0,e),X0),m(X0,l(ld(X0,e),X0,X1))) = m(m(X0,ld(m(X1,X0),X1)),k(ld(X0,e),X0))).
+cnf(left_id,axiom,m(e,A) = A).
+cnf(right_id,axiom,m(A,e) = A).
+cnf(ld_cancel,axiom,ld(A,m(A,B)) = B).
+cnf(ld_mult,axiom,m(A,ld(A,B)) = B).
+cnf(rd_cancel,axiom,rd(m(A,B),B) = A).
+cnf(rd_mult,axiom,m(rd(A,B),B) = A).
+cnf(def_a,axiom,a(A,B,C) = ld(m(A,m(B,C)),m(m(A,B),C))).
+cnf(def_k,axiom,k(A,B) = ld(m(B,A),m(A,B))).
+cnf(def_l,axiom,l(A,B,C) = ld(m(C,B),m(C,m(B,A)))).
+cnf(def_r,axiom,r(A,B,C) = rd(m(m(A,B),C),m(B,C))).
+cnf(def_t,axiom,t(A,B) = ld(B,m(A,B))).
+cnf(aim_tt,axiom,t(t(A,B),C) = t(t(A,C),B)).
+cnf(aim_tl,axiom,l(t(A,B),C,D) = t(l(A,C,D),B)).
+cnf(aim_tr,axiom,r(t(A,B),C,D) = t(r(A,C,D),B)).
+cnf(aim_lr,axiom,r(l(A,B,C),D,E) = l(r(A,D,E),B,C)).
+cnf(aim_ll,axiom,l(l(A,B,C),D,E) = l(l(A,D,E),B,C)).
+cnf(aim_rr,axiom,r(r(A,B,C),D,E) = r(r(A,D,E),B,C)).
+cnf(nil3_15,axiom,a(a(k(A,B),C,D),E,F) = e).
+cnf(nil3_24,axiom,a(a(a(A,B,C),D,E),F,V6) = e).
+cnf(nil3_25,axiom,a(a(A,a(B,C,D),E),F,V6) = e).
+cnf(nil3_26,axiom,a(a(A,B,a(C,D,E)),F,V6) = e).
+cnf(nil3_27,axiom,a(A,a(a(B,C,D),E,F),V6) = e).
+cnf(nil3_28,axiom,a(A,a(B,a(C,D,E),F),V6) = e).
+cnf(nil3_29,axiom,a(A,a(B,C,a(D,E,F)),V6) = e).
+cnf(nil3_30,axiom,a(A,B,a(a(C,D,E),F,V6)) = e).
+cnf(nil3_31,axiom,a(A,B,a(C,a(D,E,F),V6)) = e).
+cnf(nil3_32,axiom,a(A,B,a(C,D,a(E,F,V6))) = e).
+fof(goal_294_line_1982,conjecture,! [X0,X1] : m(k(ld(X0,e),X0),m(X0,l(ld(X0,e),X0,X1))) = m(m(X0,ld(m(X1,X0),X1)),k(ld(X0,e),X0))).

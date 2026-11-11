@@ -1,34 +1,22 @@
+% AIM60k problem aK2_eq_aK3_p__goal_250: goal 250 of original aK2_eq_aK3_p, proof line 1701.
+% Axiom names and symbols: see axioms.ax.
 
-% The LADR formulas contain function or predicate symbols
-% that are not legal TPTP symbols, and we have replaced those
-% symbols with new symbols.  Here is the list of the unaccepted
-% symbols and the corresponding replacements.
-%
-%   (arity 2)        *    m
-%   (arity 2)        \    ld
-%   (arity 2)        T    t
-%   (arity 2)        K    k
-%   (arity 0)        1    e
-%   (arity 2)        /    rd
-%   (arity 3)        R    r
-%   (arity 3)        L    l
-
-cnf(sos,axiom,m(e,A) = A).
-cnf(sos,axiom,m(A,e) = A).
-cnf(sos,axiom,ld(A,m(A,B)) = B).
-cnf(sos,axiom,m(A,ld(A,B)) = B).
-cnf(sos,axiom,rd(m(A,B),B) = A).
-cnf(sos,axiom,m(rd(A,B),B) = A).
-cnf(sos,axiom,a(A,B,C) = ld(m(A,m(B,C)),m(m(A,B),C))).
-cnf(sos,axiom,k(A,B) = ld(m(B,A),m(A,B))).
-cnf(sos,axiom,l(A,B,C) = ld(m(C,B),m(C,m(B,A)))).
-cnf(sos,axiom,r(A,B,C) = rd(m(m(A,B),C),m(B,C))).
-cnf(sos,axiom,t(A,B) = ld(B,m(A,B))).
-cnf(sos,axiom,t(t(A,B),C) = t(t(A,C),B)).
-cnf(sos,axiom,l(t(A,B),C,D) = t(l(A,C,D),B)).
-cnf(sos,axiom,r(t(A,B),C,D) = t(r(A,C,D),B)).
-cnf(sos,axiom,r(l(A,B,C),D,E) = l(r(A,D,E),B,C)).
-cnf(sos,axiom,l(l(A,B,C),D,E) = l(l(A,D,E),B,C)).
-cnf(sos,axiom,r(r(A,B,C),D,E) = r(r(A,D,E),B,C)).
-cnf(sos,axiom,m(rd(e,A),rd(e,B)) = rd(e,m(A,B))).
-fof(goals,conjecture,! [X0] : ! [X1] : m(k(X0,ld(m(X1,X0),X1)),X0) = t(X0,ld(m(X1,X0),X1))).
+cnf(left_id,axiom,m(e,A) = A).
+cnf(right_id,axiom,m(A,e) = A).
+cnf(ld_cancel,axiom,ld(A,m(A,B)) = B).
+cnf(ld_mult,axiom,m(A,ld(A,B)) = B).
+cnf(rd_cancel,axiom,rd(m(A,B),B) = A).
+cnf(rd_mult,axiom,m(rd(A,B),B) = A).
+cnf(def_a,axiom,a(A,B,C) = ld(m(A,m(B,C)),m(m(A,B),C))).
+cnf(def_k,axiom,k(A,B) = ld(m(B,A),m(A,B))).
+cnf(def_l,axiom,l(A,B,C) = ld(m(C,B),m(C,m(B,A)))).
+cnf(def_r,axiom,r(A,B,C) = rd(m(m(A,B),C),m(B,C))).
+cnf(def_t,axiom,t(A,B) = ld(B,m(A,B))).
+cnf(aim_tt,axiom,t(t(A,B),C) = t(t(A,C),B)).
+cnf(aim_tl,axiom,l(t(A,B),C,D) = t(l(A,C,D),B)).
+cnf(aim_tr,axiom,r(t(A,B),C,D) = t(r(A,C,D),B)).
+cnf(aim_lr,axiom,r(l(A,B,C),D,E) = l(r(A,D,E),B,C)).
+cnf(aim_ll,axiom,l(l(A,B,C),D,E) = l(l(A,D,E),B,C)).
+cnf(aim_rr,axiom,r(r(A,B,C),D,E) = r(r(A,D,E),B,C)).
+cnf(aip,axiom,m(rd(e,A),rd(e,B)) = rd(e,m(A,B))).
+fof(goal_250_line_1701,conjecture,! [X0,X1] : m(k(X0,ld(m(X1,X0),X1)),X0) = t(X0,ld(m(X1,X0),X1))).
