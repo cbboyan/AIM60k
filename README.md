@@ -74,6 +74,35 @@ unchanged).
   If the earlier one (train before devel before holdout) has a subset of the
   axioms, or a more general goal, its proof is already a proof of the later
   one. After deduplication this held for about a quarter of devel and holdout.
+  The two kinds of leak, with real examples from before the swaps (the 17
+  `BASE` axioms not shown):
+
+  **Axiom subset**: same goal, fewer axioms in train.
+
+  ```
+  train    BASE       ⊢ G        Kproperties_1__goal_190
+  holdout  BASE, ak1  ⊢ G        aK1_to_aK2__goal_61
+
+  G = ! [X0,X1] : ld(ld(X0,X1),rd(X1,X0)) = m(rd(X1,X0),ld(ld(X0,X1),e))
+  ```
+
+  A proof from `BASE` alone is a proof from `BASE, ak1` as it stands.
+
+  **Goal instance**: same axioms, more general goal in train.
+
+  ```
+  train    BASE ⊢ ! [X0,X1,X2] : ld(X0,t(X1,X2)) = rd(t(m(ld(X0,X1),X0),X2),X0)   nil3_2K__goal_397
+  holdout  BASE ⊢ ! [X0,X1]    : ld(X0,t(X1,X0)) = rd(t(m(ld(X0,X1),X0),X0),X0)   aK2_eq_aK3_1243b__goal_281
+  ```
+
+  The holdout goal is the train goal with `X2 := X0`, so the train proof with
+  that substitution proves it.
+
+  In both cases the swap exchanges the two problems: train gets
+  `BASE, ak1 ⊢ G` and the special goal, holdout gets `BASE ⊢ G` and the
+  general goal. A proof of the train problem is then no longer guaranteed to
+  prove the holdout one. (Both example pairs were swapped this way; see
+  `problems/00SWAPS`.)
 - **How.** Each such pair is swapped: the later part gets the variant with
   fewer assumptions (or the more general goal), the earlier part the one with
   more assumptions, which is usually easier. This repeats until no such pair
