@@ -10,8 +10,15 @@ Changes of this fork relative to the upstream AIM60k release (commit `33eb3c5`).
   - axioms in a fixed order; the two variants of the `aim_lr` axiom written
     the same way;
   - conjecture named `goal_N_line_L` and written in a canonical form;
-  - no comments: the `ladr_to_tptp` symbol table is dropped (the symbols are
-    documented in `axioms.ax`).
+  - the `ladr_to_tptp` symbol table is dropped (the symbols are documented in
+    `axioms.ax`); instead a first line `% axioms: ...` names the axioms, e.g.
+    `% axioms: BASE NUCSQ ak1`.
+- Axiom groups, written in capitals and defined in `problems/axioms.ax`:
+  `BASE` (the 17 axioms of every problem), `NUCSQ`, `AK`, `IMORD2`, `AA1XX`,
+  `AA2XX`, `AA3XX`, `NIL3K`, `AA_NL`, `AA_NM`, `AA_NR`. Every axiom is in at
+  most one group; a group is named in the `% axioms:` line when all its axioms
+  are present.
+- New `axiom-names.md`: how the axioms are named, and what the groups mean.
 - The problems are logically unchanged; the LADR files are untouched.
 - The TPTP files now pass `tptp4X` (upstream's repeated formula name `sos` is
   rejected as a duplicate name).

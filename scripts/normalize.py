@@ -8,7 +8,10 @@ For every problem X__goal_N:
 - the conjecture is written in a canonical form (fixed orientation, literal
   order and variable names) and named goal_N_line_L, where L is the proof line
   given by the comment in the LADR file;
-- comments are dropped (symbols and names are documented in axioms.ax).
+- the only comment is a first line naming the axioms by group and name,
+  e.g. "% axioms: BASE NUCSQ ak1" (groups are defined in axioms.ax: a group
+  is named when all its axioms are present, then the remaining axioms follow
+  in the order of axioms.ax).
 
 Two problems are then duplicates exactly when their files are identical apart
 from the name of the conjecture. The LADR files are only read.
@@ -104,9 +107,13 @@ def canon(clause):
 
 
 def read_axioms(path):
-    """name -> formula, canon -> name, and the order of names."""
-    order, formula, by_canon = [], {}, {}
+    """name -> formula, canon -> name, the order of names, and the groups."""
+    order, formula, by_canon, groups = [], {}, {}, []
     for line in open(path):
+        g = re.match(r"^%\s*group\s+([A-Z][A-Z0-9_]*)\s*:\s*(.*)$", line)
+        if g:
+            groups.append((g.group(1), g.group(2).split()))
+            continue
         m = re.match(r"^cnf\((\w+),axiom,(.*)\)\.\s*$", line)
         if not m:
             continue
@@ -117,7 +124,26 @@ def read_axioms(path):
         order.append(name)
         formula[name] = f
         by_canon[c] = name
-    return order, formula, by_canon
+    seen = set()
+    for g, members in groups:
+        for x in members:
+            if x not in formula:
+                sys.exit("axioms.ax: group %s: unknown axiom %s" % (g, x))
+            if x in seen:
+                sys.exit("axioms.ax: %s is in two groups" % x)
+            seen.add(x)
+    return order, formula, by_canon, groups
+
+
+def describe(names, order, groups):
+    """The "% axioms:" line: complete groups, then the other axioms."""
+    rest, words = set(names), []
+    for g, members in groups:
+        if set(members) <= rest:
+            words.append(g)
+            rest -= set(members)
+    words += [x for x in order if x in rest]
+    return "% axioms: " + " ".join(words)
 
 
 def parse_tptp(path):
@@ -155,7 +181,7 @@ def goal_formula(c):
     return "! [%s] : %s" % (",".join(vs), body) if vs else body
 
 
-def normalize(name, tptp, ladr, order, formula, by_canon):
+def normalize(name, tptp, ladr, order, formula, by_canon, groups):
     axioms, goal = parse_tptp(tptp)
     names = set()
     for a in axioms:
@@ -168,7 +194,8 @@ def normalize(name, tptp, ladr, order, formula, by_canon):
     n, line = ladr_line(ladr)
     if not name.endswith("__goal_%d" % n):
         raise ValueError("LADR comment says goal_%d" % n)
-    out = ["cnf(%s,axiom,%s)." % (x, formula[x]) for x in order if x in names]
+    out = [describe(names, order, groups)]
+    out += ["cnf(%s,axiom,%s)." % (x, formula[x]) for x in order if x in names]
     out.append("fof(goal_%d_line_%d,conjecture,%s)." % (n, line, goal_formula(canon(goal))))
     return "\n".join(out) + "\n"
 
@@ -180,7 +207,7 @@ def main():
     ap.add_argument("--out")
     ap.add_argument("--check", action="store_true")
     a = ap.parse_args()
-    order, formula, by_canon = read_axioms(os.path.join(a.problems, "axioms.ax"))
+    order, formula, by_canon, groups = read_axioms(os.path.join(a.problems, "axioms.ax"))
     tdir = os.path.join(a.problems, "tptp")
     out = a.out or tdir
     if not a.check:
@@ -194,7 +221,7 @@ def main():
         try:
             text = normalize(name, os.path.join(tdir, f),
                              os.path.join(a.problems, "ladr", name),
-                             order, formula, by_canon)
+                             order, formula, by_canon, groups)
         except (ValueError, OSError) as e:
             errors.append("%s: %s" % (name, e))
             continue

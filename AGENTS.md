@@ -36,7 +36,8 @@ Facts about the files:
   `fof(goal_N_line_L,conjecture,...)` in canonical form (least variant over equation
   orientations and literal orders, variables `X0, X1, ...` by occurrence). Two
   problems are identical iff their files match apart from the conjecture name. The
-  files have no comments.
+  only comment is the first line, `% axioms: ...` (groups in capitals, defined in
+  `axioms.ax` as `% group NAME: ...`, disjoint; see `axiom-names.md`).
 - All goals of one original share its axiom set. 17 axioms occur in every problem
   (`left_id` ... `aim_rr`); the 76 hypotheses are named after the labels in R.
   Veroff's Prover9 `.in` files (lowercased, `nil3 23, aK3-Nr` -> `nil3_23`,

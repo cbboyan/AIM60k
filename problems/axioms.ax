@@ -4,6 +4,20 @@
 %          a = associator, k = commutator (K), l, r, t = inner mappings L, R, T.
 % Comments give the number of problems containing the axiom and, for hypotheses, the label
 % in R. Veroff's Prover9 input files (derived: none found, named by the aa1{xi/xj} convention).
+%
+% Groups (see axiom-names.md), used in the "% axioms:" line of each problem. Every axiom is in
+% at most one group; a group is named when all its axioms are present.
+% group BASE: left_id right_id ld_cancel ld_mult rd_cancel rd_mult def_a def_k def_l def_r def_t aim_tt aim_tl aim_tr aim_lr aim_ll aim_rr
+% group NUCSQ: nucsq_l nucsq_m nucsq_r
+% group AK: ak1 ak2 ak3 ka
+% group IMORD2: imord2_l imord2_r imord2_t
+% group AA1XX: aa1_x1x2 aa1_x1x3 aa1_x1x4 aa1_x1x5 aa1_x2x3 aa1_x2x4 aa1_x2x5 aa1_x3x4 aa1_x3x5 aa1_x4x5
+% group AA2XX: aa2_x2x3 aa2_x3x4
+% group AA3XX: aa3_x3x4 aa3_x4x5
+% group NIL3K: nil3_1 nil3_2 nil3_3 nil3_4 nil3_5 nil3_9 nil3_10 nil3_11
+% group AA_NL: nil3_24 nil3_25 nil3_26
+% group AA_NM: nil3_27 nil3_28 nil3_29
+% group AA_NR: nil3_30 nil3_31 nil3_32
 
 % --- in every problem ---
 % loop: left identity

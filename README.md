@@ -147,6 +147,8 @@ as upstream, written in a canonical form:
 - Equations, literals and variables of the conjecture are put in a fixed order,
   so two problems are the same exactly when their files are identical apart
   from the name of the conjecture.
-- The files have no comments; the symbols are explained in `axioms.ax`.
+- The only comment is a first line naming the axioms, by group where all
+  axioms of a group are present, e.g. `% axioms: BASE NUCSQ ak1`. Names and
+  groups are explained in `axiom-names.md`.
 
 The LADR files are unchanged.
