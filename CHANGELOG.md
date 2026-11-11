@@ -19,6 +19,10 @@ Changes of this fork relative to the upstream AIM60k release (commit `33eb3c5`).
   most one group; a group is named in the `% axioms:` line when all its axioms
   are present.
 - New `axiom-names.md`: how the axioms are named, and what the groups mean.
+- Removed duplicate problems with `scripts/dedup.py`: 41,510 of 51,784 are
+  distinct. One copy of each is kept (holdout before devel before train); the
+  10,274 others are moved to `dups/`, with `dups/problems/00DUPS` mapping each
+  to the problem kept. Train 31,466, devel 4,300, holdout 5,744.
 - The problems are logically unchanged; the LADR files are untouched.
 - The TPTP files now pass `tptp4X` (upstream's repeated formula name `sos` is
   rejected as a duplicate name).

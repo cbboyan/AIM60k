@@ -21,9 +21,13 @@ Everything is in `problems/`:
   files are upstream's and are not rewritten.
 - `axioms.ax`: all 93 distinct axioms with their names, in the canonical order.
 - `train.names`, `devel.names`, `holdout.names`: disjoint, one name per line, no `.p`.
-  `00ALL` is their union (51,784).
+  `00ALL` is their union (41,510 after dedup; upstream 51,784).
 - `00E26_1s`, `00P9_1s`: names solved by E 2.6 / Prover9 at 1 s (upstream's runs,
   on the files before normalization).
+
+`dups/problems/` mirrors `problems/` for the 10,274 duplicates removed by
+`scripts/dedup.py` (same file and list layout), plus `00DUPS`: `removed kept` per
+line. `problems/` + `dups/problems/` together give back upstream's 51,784.
 
 Any change that adds, removes or renames problems must keep all of these in sync: both
 format directories, the three `.names` files, `00ALL`, and the two baseline lists.
@@ -48,14 +52,16 @@ Facts about the files:
 
 ## Known data issues
 
-- Duplicates: only ~41.5k of the 51,784 problems are distinct (same axiom set + same
-  goal), never within one original — always across originals sharing an axiom set.
-  Thousands of duplicate groups span two parts.
-- Only ~16.8k distinct goals; ~6.7k goals occur with more than one axiom set. If one
+- Duplicates (removed): 41,510 of upstream's 51,784 problems are distinct, never
+  within one original, always across originals sharing an axiom set (129 originals,
+  68 axiom sets). `dedup.py` keeps holdout > devel > train, then the smallest
+  (original, goal number); it hashes each file with the conjecture name blanked.
+- Only ~16.7k distinct goals; ~6.7k goals occur with more than one axiom set. If one
   copy's axioms are a subset of another's, a proof of the smaller one proves the
   larger one too (a split leak if the smaller is in train and the larger outside).
-- The split was made per original (`selsecret.py`, not in the repo), so neither of the
-  above is accounted for.
+- The split was made per original (`selsecret.py`, not in the repo). After dedup, about
+  25% of devel and holdout still leak: the same goal is in train with a subset of the
+  axioms (`subset`) or a more general one (`instance`).
 
 ## Tools
 

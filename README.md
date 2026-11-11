@@ -152,3 +152,25 @@ as upstream, written in a canonical form:
   groups are explained in `axiom-names.md`.
 
 The LADR files are unchanged.
+
+**Duplicates removed** (`scripts/dedup.py`). Different originals often share
+their axioms (the 129 public originals have only 68 distinct axiom sets), so
+the same problem occurs under several names. Of each group of identical
+problems (identical files apart from the name of the conjecture) one is kept:
+the one in holdout, else devel, else train; within a part, the smallest
+original name, then the lowest goal number. The others are moved to `dups/`,
+which has the same layout as the root (`dups/problems/tptp/`, `ladr/`, the
+`.names` and `00*` lists), and `dups/problems/00DUPS` maps each removed problem
+to the one kept in its place.
+
+| part    | upstream | removed | now    |
+|---------|---------:|--------:|-------:|
+| train   | 41,378   | 9,912   | 31,466 |
+| devel   | 4,526    | 226     | 4,300  |
+| holdout | 5,880    | 136     | 5,744  |
+| total   | 51,784   | 10,274  | 41,510 |
+
+No problem now occurs twice, within a part or across parts. About a quarter of
+devel and holdout still has its goal in train with a subset of the axioms;
+this is not yet fixed. The baseline lists `00E26_1s` and `00P9_1s` were only
+filtered; the results were not rerun.
