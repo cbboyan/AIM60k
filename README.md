@@ -127,3 +127,25 @@ All files are in `problems/`:
 
 This problem database was built with scripts. There could be some exceptional
 cases with errors.
+## Changes in this fork
+
+This fork makes interim fixes while the upstream split is being revised. See
+`CHANGELOG.md` for the full list.
+
+**Normalized TPTP files** (`scripts/normalize.py`). The problems are the same
+as upstream, written in a canonical form:
+
+- Every axiom has a name, the same in every problem. All 93 distinct axioms are
+  listed in `problems/axioms.ax`, and every problem lists its axioms in the
+  order of that file. The 17 axioms of every problem (loop axioms, the
+  definitions of `a`, `k`, `l`, `r`, `t`, and the abelian inner mapping
+  conditions) come first, then the hypotheses of the original. The hypotheses
+  are named after the labels in R. Veroff's Prover9 input files (`nil3_23`,
+  `middle_bol`, `ak1`, ...), lowercased to make them TPTP names.
+- The conjecture is named `goal_N_line_L`: goal `N` of the original, taken from
+  line `L` of its Prover9 proof (the comment in the LADR file).
+- Equations, literals and variables of the conjecture are put in a fixed order,
+  so two problems are the same exactly when their files are identical apart
+  from the header line.
+
+The LADR files are unchanged.
