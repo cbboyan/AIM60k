@@ -1,6 +1,3 @@
-% AIM60k problem Kproperties_1__goal_64: goal 64 of original Kproperties_1, proof line 292.
-% Axiom names and symbols: see axioms.ax.
-
 cnf(left_id,axiom,m(e,A) = A).
 cnf(right_id,axiom,m(A,e) = A).
 cnf(ld_cancel,axiom,ld(A,m(A,B)) = B).

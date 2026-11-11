@@ -1,6 +1,3 @@
-% AIM60k problem aa3_45__goal_491: goal 491 of original aa3_45, proof line 6180.
-% Axiom names and symbols: see axioms.ax.
-
 cnf(left_id,axiom,m(e,A) = A).
 cnf(right_id,axiom,m(A,e) = A).
 cnf(ld_cancel,axiom,ld(A,m(A,B)) = B).

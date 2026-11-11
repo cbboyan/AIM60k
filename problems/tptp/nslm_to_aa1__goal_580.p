@@ -1,6 +1,3 @@
-% AIM60k problem nslm_to_aa1__goal_580: goal 580 of original nslm_to_aa1, proof line 2270.
-% Axiom names and symbols: see axioms.ax.
-
 cnf(left_id,axiom,m(e,A) = A).
 cnf(right_id,axiom,m(A,e) = A).
 cnf(ld_cancel,axiom,ld(A,m(A,B)) = B).

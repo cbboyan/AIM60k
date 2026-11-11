@@ -1,6 +1,3 @@
-% AIM60k problem uflex_to_aaip__goal_79: goal 79 of original uflex_to_aaip, proof line 1097.
-% Axiom names and symbols: see axioms.ax.
-
 cnf(left_id,axiom,m(e,A) = A).
 cnf(right_id,axiom,m(A,e) = A).
 cnf(ld_cancel,axiom,ld(A,m(A,B)) = B).

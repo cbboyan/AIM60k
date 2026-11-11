@@ -1,6 +1,3 @@
-% AIM60k problem metabelian__goal_242: goal 242 of original metabelian, proof line 1306.
-% Axiom names and symbols: see axioms.ax.
-
 cnf(left_id,axiom,m(e,A) = A).
 cnf(right_id,axiom,m(A,e) = A).
 cnf(ld_cancel,axiom,ld(A,m(A,B)) = B).

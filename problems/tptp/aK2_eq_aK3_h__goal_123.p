@@ -1,6 +1,3 @@
-% AIM60k problem aK2_eq_aK3_h__goal_123: goal 123 of original aK2_eq_aK3_h, proof line 545.
-% Axiom names and symbols: see axioms.ax.
-
 cnf(left_id,axiom,m(e,A) = A).
 cnf(right_id,axiom,m(A,e) = A).
 cnf(ld_cancel,axiom,ld(A,m(A,B)) = B).

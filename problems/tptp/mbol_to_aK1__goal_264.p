@@ -1,6 +1,3 @@
-% AIM60k problem mbol_to_aK1__goal_264: goal 264 of original mbol_to_aK1, proof line 1176.
-% Axiom names and symbols: see axioms.ax.
-
 cnf(left_id,axiom,m(e,A) = A).
 cnf(right_id,axiom,m(A,e) = A).
 cnf(ld_cancel,axiom,ld(A,m(A,B)) = B).

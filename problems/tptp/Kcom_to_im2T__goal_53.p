@@ -1,6 +1,3 @@
-% AIM60k problem Kcom_to_im2T__goal_53: goal 53 of original Kcom_to_im2T, proof line 588.
-% Axiom names and symbols: see axioms.ax.
-
 cnf(left_id,axiom,m(e,A) = A).
 cnf(right_id,axiom,m(A,e) = A).
 cnf(ld_cancel,axiom,ld(A,m(A,B)) = B).

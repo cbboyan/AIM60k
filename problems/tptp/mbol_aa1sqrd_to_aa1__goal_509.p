@@ -1,6 +1,3 @@
-% AIM60k problem mbol_aa1sqrd_to_aa1__goal_509: goal 509 of original mbol_aa1sqrd_to_aa1, proof line 5142.
-% Axiom names and symbols: see axioms.ax.
-
 cnf(left_id,axiom,m(e,A) = A).
 cnf(right_id,axiom,m(A,e) = A).
 cnf(ld_cancel,axiom,ld(A,m(A,B)) = B).

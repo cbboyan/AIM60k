@@ -1,6 +1,3 @@
-% AIM60k problem nil3_28__goal_234: goal 234 of original nil3_28, proof line 1299.
-% Axiom names and symbols: see axioms.ax.
-
 cnf(left_id,axiom,m(e,A) = A).
 cnf(right_id,axiom,m(A,e) = A).
 cnf(ld_cancel,axiom,ld(A,m(A,B)) = B).

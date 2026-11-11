@@ -1,6 +1,3 @@
-% AIM60k problem aKperms_1__goal_206: goal 206 of original aKperms_1, proof line 1008.
-% Axiom names and symbols: see axioms.ax.
-
 cnf(left_id,axiom,m(e,A) = A).
 cnf(right_id,axiom,m(A,e) = A).
 cnf(ld_cancel,axiom,ld(A,m(A,B)) = B).

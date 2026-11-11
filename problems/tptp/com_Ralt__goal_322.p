@@ -1,6 +1,3 @@
-% AIM60k problem com_Ralt__goal_322: goal 322 of original com_Ralt, proof line 2305.
-% Axiom names and symbols: see axioms.ax.
-
 cnf(left_id,axiom,m(e,A) = A).
 cnf(right_id,axiom,m(A,e) = A).
 cnf(ld_cancel,axiom,ld(A,m(A,B)) = B).

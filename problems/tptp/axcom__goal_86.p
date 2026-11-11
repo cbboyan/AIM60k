@@ -1,6 +1,3 @@
-% AIM60k problem axcom__goal_86: goal 86 of original axcom, proof line 834.
-% Axiom names and symbols: see axioms.ax.
-
 cnf(left_id,axiom,m(e,A) = A).
 cnf(right_id,axiom,m(A,e) = A).
 cnf(ld_cancel,axiom,ld(A,m(A,B)) = B).

@@ -1,6 +1,3 @@
-% AIM60k problem R1dist_to_aa1__goal_240: goal 240 of original R1dist_to_aa1, proof line 960.
-% Axiom names and symbols: see axioms.ax.
-
 cnf(left_id,axiom,m(e,A) = A).
 cnf(right_id,axiom,m(A,e) = A).
 cnf(ld_cancel,axiom,ld(A,m(A,B)) = B).

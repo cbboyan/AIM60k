@@ -1,6 +1,3 @@
-% AIM60k problem lra2aa__goal_248: goal 248 of original lra2aa, proof line 1270.
-% Axiom names and symbols: see axioms.ax.
-
 cnf(left_id,axiom,m(e,A) = A).
 cnf(right_id,axiom,m(A,e) = A).
 cnf(ld_cancel,axiom,ld(A,m(A,B)) = B).

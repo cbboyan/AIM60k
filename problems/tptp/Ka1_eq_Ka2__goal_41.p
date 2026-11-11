@@ -1,6 +1,3 @@
-% AIM60k problem Ka1_eq_Ka2__goal_41: goal 41 of original Ka1_eq_Ka2, proof line 223.
-% Axiom names and symbols: see axioms.ax.
-
 cnf(left_id,axiom,m(e,A) = A).
 cnf(right_id,axiom,m(A,e) = A).
 cnf(ld_cancel,axiom,ld(A,m(A,B)) = B).

@@ -1,6 +1,3 @@
-% AIM60k problem TLRproperties_2__goal_200: goal 200 of original TLRproperties_2, proof line 960.
-% Axiom names and symbols: see axioms.ax.
-
 cnf(left_id,axiom,m(e,A) = A).
 cnf(right_id,axiom,m(A,e) = A).
 cnf(ld_cancel,axiom,ld(A,m(A,B)) = B).

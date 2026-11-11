@@ -1,6 +1,3 @@
-% AIM60k problem aa_instances_4__goal_295: goal 295 of original aa_instances_4, proof line 1995.
-% Axiom names and symbols: see axioms.ax.
-
 cnf(left_id,axiom,m(e,A) = A).
 cnf(right_id,axiom,m(A,e) = A).
 cnf(ld_cancel,axiom,ld(A,m(A,B)) = B).

@@ -1,6 +1,3 @@
-% AIM60k problem nil3_23_32_to_26__goal_460: goal 460 of original nil3_23_32_to_26, proof line 3467.
-% Axiom names and symbols: see axioms.ax.
-
 cnf(left_id,axiom,m(e,A) = A).
 cnf(right_id,axiom,m(A,e) = A).
 cnf(ld_cancel,axiom,ld(A,m(A,B)) = B).
