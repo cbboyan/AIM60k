@@ -1,3 +1,4 @@
+% axioms: BASE AA2XX AA3XX aa1_x1x2 aa1_x2x3 kk middle_bol
 cnf(left_id,axiom,m(e,A) = A).
 cnf(right_id,axiom,m(A,e) = A).
 cnf(ld_cancel,axiom,ld(A,m(A,B)) = B).
