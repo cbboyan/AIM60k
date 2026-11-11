@@ -1,193 +1,118 @@
-# AIM60k
+# 🔁 AIM60k (fork)
 
-AIM60k is a benchmark of 61,800 problems for automated theorem provers. Robert
-Veroff and Josef Urban made it from the Prover9 proofs of 150 hard problems of
-the [AIM project](https://www.cs.unm.edu/~veroff/AIM_REDONE/) by Michael Kinyon
-and Robert Veroff.
+> The public part of the AIM60k theorem-proving benchmark, cleaned up:
+> named axioms, no duplicate problems, and no train problem whose proof
+> already proves a devel or holdout problem.
 
-This repository contains the public part: 51,784 problems coming from 129 of
-the original problems. The remaining 10,016 problems (the secret part) are not
-published. We keep them to evaluate systems ourselves.
+This is a fork of [**JUrban/AIM60k**](https://github.com/JUrban/AIM60k) by
+Robert Veroff and Josef Urban. AIM60k is made from Prover9 proofs of the
+[AIM project](https://www.cs.unm.edu/~veroff/AIM_REDONE/) (Michael Kinyon and
+Robert Veroff): each problem `X__goal_N` asks to prove one step of the proof of
+an original problem `X` from that original's axioms. See the upstream README
+for how the problems and the train/devel/holdout split were made.
 
-## The AIM project
+The fixes here are interim, until the upstream split is revised. The problems
+themselves are logically unchanged.
 
-The AIM project works on the AIM conjecture in loop theory using the
-automated theorem prover Prover9. An AIM loop is a loop whose inner mapping
-group is abelian. The main conjecture says that for an AIM loop Q, Q/N(Q) is
-an abelian group and Q/Z(Q) is a group, where N(Q) is the nucleus and Z(Q) the
-center of Q. For background, see the [AIM project page](https://www.cs.unm.edu/~veroff/AIM_REDONE/)
-and M. Kinyon, R. Veroff, P. Vojtěchovský, [*Loops with abelian inner mapping
-groups: an application of automated deduction*](https://arxiv.org/abs/1509.05468).
+## 📊 At a glance
 
-## How the problems were made
+| part    | upstream | duplicates removed | now    |
+|---------|---------:|-------------------:|-------:|
+| train   | 41,378   | 9,912              | 31,466 |
+| devel   | 4,526    | 226                | 4,300  |
+| holdout | 5,880    | 136                | 5,744  |
+| total   | 51,784   | 10,274             | 41,510 |
 
-Each original problem `X` is a Prover9 run that found a proof. From each proof,
-a number of proof steps were selected as challenge goals. Each goal, with its
-own axioms, is one problem, named `X__goal_N`. The 150 originals give 61,800
-problems.
+On top of that, 3,769 problems moved between parts to stop leaks (part sizes
+unchanged).
 
-The steps are selected by a *striping* pattern, so that they get sparser
-towards the end of the proof. The base pattern is
+## 🧹 What changed, how, and why
 
-```
-[[5, 3], [4, 5], [3, 8], [3, 13], [2, 21], [2, 34], [1, 55]]
-```
+### 🏷️ Named axioms, canonical files
 
-where `[i, j]` means: select `i` lines that are `j` lines apart. One run of the
-pattern covers 263 proof lines and selects 20 of them. Several runs can be
-combined. For example, 3 runs give
+`scripts/normalize.py`
 
-```
-[15, 3] [12, 5] [9, 8] [9, 13] [6, 21] [6, 34] [3, 55]
-```
+- **Why.** Upstream names every axiom `sos`, which `tptp4X` rejects as a
+  duplicate name, and writes the same problem in different ways (axiom order,
+  orientation of equations, variable names), so duplicates are hard to see.
+- **How.** The whole benchmark uses only 93 distinct axioms. They are listed
+  under their names in [`problems/axioms.ax`](problems/axioms.ax): 17 occur in
+  every problem, the 76 others are hypotheses of particular originals, named
+  after R. Veroff's labels (`middle_bol`, `ak1`, `nil3_23`, ...). Every problem
+  lists its axioms in the order of that file, the conjecture is written in a
+  canonical form and named `goal_N_line_L` (goal `N`, from line `L` of the
+  Prover9 proof), and a first comment line names the axioms, by group where
+  possible:
 
-that is, 15 lines 3 apart, then 12 lines 5 apart, and so on, ending with 3 lines
-55 apart. Shorter proofs end before reaching the last of these stripes. The
-late goals are deep in the proof and far from the previous goal, so they are
-usually the hardest.
+  ```
+  % axioms: BASE NUCSQ ak1
+  ```
 
-## Train, devel, holdout and secret
+  Names and groups are explained in [`axiom-names.md`](axiom-names.md). The
+  LADR files are unchanged.
 
-The problems are divided into four parts:
+### ✂️ Duplicates removed
 
-| part    | use                                                  | originals | problems |
-|---------|------------------------------------------------------|----------:|---------:|
-| train   | training your system                                 |       108 |   41,378 |
-| devel   | tuning your system and comparing its versions        |        10 |    4,526 |
-| holdout | reporting results; do not train or tune on these     |       11* |   5,880* |
-| secret  | not published; we keep these to test systems         |       21* |  10,016* |
+`scripts/dedup.py`
 
-\* Plus single goals moved from devel and train originals in step 2 below.
+- **Why.** Different originals often share their axioms (the 129 public
+  originals have only 68 distinct axiom sets), so the same problem occurs under
+  several names, often in different parts: 20.5% of devel and 29.6% of holdout
+  were identical to a train problem.
+- **How.** After normalization, identical problems have identical files apart
+  from the name of the conjecture. Of each group one problem is kept: the one
+  in holdout, else devel, else train; within a part, the smallest original
+  name, then the lowest goal number. The others are moved to
+  [`dups/`](dups), which has the same layout as the root;
+  `dups/problems/00DUPS` maps each removed problem to the one kept.
 
-This was done in two steps.
+### 🔀 Swaps against leaks
 
-**1. Whole originals.** We sorted the 150 originals by difficulty, measured by
-the largest line number of their selected goals (roughly the length of the
-proof), cut the sorted list into 10 groups from the longest proofs to the
-shortest, and picked originals at random from each group. So every part has
-easy, medium and hard originals, but secret and holdout take more from the
-hardest group:
+`scripts/swap.py`
 
-| part    | originals | picked                                                |
-|---------|----------:|-------------------------------------------------------|
-| secret  |        21 | 3 from the hardest group, 2 from each other group     |
-| holdout |        11 | 2 from the hardest group, 1 from each other group     |
-| devel   |        10 | 1 from each group                                     |
-| train   |       108 | the rest                                              |
+- **Why.** A problem can still share its goal with a problem of a later part.
+  If the earlier one (train before devel before holdout) has a subset of the
+  axioms, or a more general goal, its proof is already a proof of the later
+  one. After deduplication this held for about a quarter of devel and holdout.
+- **How.** Each such pair is swapped: the later part gets the variant with
+  fewer assumptions (or the more general goal), the earlier part the one with
+  more assumptions, which is usually easier. This repeats until no such pair
+  is left (three rounds). Part sizes do not change; every swap is listed in
+  `problems/00SWAPS`.
+- **Caveats.** About 72% of devel and holdout still have their goal in train,
+  always with more axioms: a train proof that does not use the extra axioms is
+  a proof of the evaluation problem too. The holdout originals are no longer
+  kept whole. The 1 s baseline solve rates of the parts did not change
+  (E 31%, Prover9 32% in each).
 
-Each part was picked from the originals left over by the previous one, sorted
-and grouped again.
+## 📁 Files
 
-Every goal of a secret original is in secret, and every goal of a holdout
-original is in holdout. The goals of the devel and train originals are in devel
-and train, except the few moved out in step 2. The secret and holdout originals
-are kept whole because the goals of one original are steps of the same proof,
-often only a few lines apart, so they are very similar. If some of them were in
-train and others in holdout, a system could do well on holdout just because it
-has seen the neighbouring steps.
+| path | contents |
+|---|---|
+| `problems/tptp/X__goal_N.p` | the problems in TPTP, normalized |
+| `problems/ladr/X__goal_N` | the same problems in LADR (Prover9), as upstream |
+| `problems/axioms.ax` | all 93 axioms with their names, and the axiom groups |
+| `problems/{train,devel,holdout}.names` | the problems of each part, one name per line |
+| `problems/00ALL` | all problems: the three lists together |
+| `problems/00E26_1s`, `problems/00P9_1s` | upstream's baseline: problems solved by E 2.6 / Prover9 in 1 s (not rerun) |
+| `problems/00SWAPS` | the swaps: `round problem from to partner` |
+| `dups/problems/` | the removed duplicates, in the same layout, and `00DUPS` |
+| `axiom-names.md` | how the axioms are named, and the groups |
+| `scripts/` | `normalize.py`, `dedup.py`, `swap.py` (Python 3, standard library) |
 
-**2. Late goals.** In the 118 devel and train originals, some single goals were
-moved to secret and holdout as well, the later and harder ones more often. The
-further a goal is from the previous selected goal in the proof, the more likely
-it was moved: a goal 55 lines after the previous one went to secret with
-probability 10% and to holdout with probability 10%, a goal 34 lines after it
-with 34/55 of that, and so on, down to 3/55 of that for goals 3 lines apart.
-(The first goal of each proof has no previous goal and was never moved.) So the
-hard late goals are rarer in train and devel, but not missing. Proofs that end
-before the 55-line stripe also contribute, with their widest stripes.
+## 🛠️ Reproduce
 
-Of the 10,016 secret problems, 8,860 come from the 21 secret originals and 1,156
-were moved in step 2. Of the 5,880 holdout problems, 4,720 come from the 11
-holdout originals and 1,160 were moved in step 2.
-
-A holdout problem `X__goal_N` whose `X` also has problems in `train.names` or
-`devel.names` was moved there in step 2. The other holdout problems come from
-whole holdout originals.
-
-The split was made with the script `selsecret.py`:
-
-```
-selsecret.py PartialGoals --seed 2026 --top-frac 0.2 --frac 0.1
+```sh
+python3 scripts/normalize.py   # rewrite problems/tptp in canonical form
+python3 scripts/dedup.py       # move duplicates to dups/
+python3 scripts/swap.py        # swap leaking problems between parts
 ```
 
-## Files
+Each script prints what it does, and `dedup.py` and `swap.py` accept
+`--dry-run`. Run in this order on an upstream checkout; rerunning any of them
+changes nothing. Changes are recorded in the [changelog](CHANGELOG.md).
 
-All files are in `problems/`:
+## ⚠️ Disclaimer
 
-| path                                   | contents                                                   |
-|----------------------------------------|------------------------------------------------------------|
-| `tptp/X__goal_N`                       | the problems in TPTP format, one file per problem          |
-| `ladr/X__goal_N`                       | the same problems in LADR (Prover9) format                 |
-| `train.names`, `devel.names`, `holdout.names` | the problems in each part, one name per line        |
-| `00ALL`                                | all 51,784 public problems: the three lists together       |
-| `00E26_1s`                             | baseline results of E 2.6 with a 1 s time limit            |
-| `00P9_1s`                              | baseline results of Prover9 with a 1 s time limit          |
-
-## Disclaimer
-
-This problem database was built with scripts. There could be some exceptional
-cases with errors.
-## Changes in this fork
-
-This fork makes interim fixes while the upstream split is being revised. See
-`CHANGELOG.md` for the full list.
-
-**Normalized TPTP files** (`scripts/normalize.py`). The problems are the same
-as upstream, written in a canonical form:
-
-- Every axiom has a name, the same in every problem. All 93 distinct axioms are
-  listed in `problems/axioms.ax`, and every problem lists its axioms in the
-  order of that file. The 17 axioms of every problem (loop axioms, the
-  definitions of `a`, `k`, `l`, `r`, `t`, and the abelian inner mapping
-  conditions) come first, then the hypotheses of the original. The hypotheses
-  are named after the labels in R. Veroff's Prover9 input files (`nil3_23`,
-  `middle_bol`, `ak1`, ...), lowercased to make them TPTP names.
-- The conjecture is named `goal_N_line_L`: goal `N` of the original, taken from
-  line `L` of its Prover9 proof (the comment in the LADR file).
-- Equations, literals and variables of the conjecture are put in a fixed order,
-  so two problems are the same exactly when their files are identical apart
-  from the name of the conjecture.
-- The only comment is a first line naming the axioms, by group where all
-  axioms of a group are present, e.g. `% axioms: BASE NUCSQ ak1`. Names and
-  groups are explained in `axiom-names.md`.
-
-The LADR files are unchanged.
-
-**Duplicates removed** (`scripts/dedup.py`). Different originals often share
-their axioms (the 129 public originals have only 68 distinct axiom sets), so
-the same problem occurs under several names. Of each group of identical
-problems (identical files apart from the name of the conjecture) one is kept:
-the one in holdout, else devel, else train; within a part, the smallest
-original name, then the lowest goal number. The others are moved to `dups/`,
-which has the same layout as the root (`dups/problems/tptp/`, `ladr/`, the
-`.names` and `00*` lists), and `dups/problems/00DUPS` maps each removed problem
-to the one kept in its place.
-
-| part    | upstream | removed | now    |
-|---------|---------:|--------:|-------:|
-| train   | 41,378   | 9,912   | 31,466 |
-| devel   | 4,526    | 226     | 4,300  |
-| holdout | 5,880    | 136     | 5,744  |
-| total   | 51,784   | 10,274  | 41,510 |
-
-No problem now occurs twice, within a part or across parts. The baseline
-lists `00E26_1s` and `00P9_1s` were only filtered; the results were not rerun.
-
-**Swaps against leaks** (`scripts/swap.py`). Different problems can still
-share a goal. If a problem in an earlier part (train before devel before
-holdout) has the same goal as a problem in a later part, or a more general
-one, and a subset of its axioms, then a proof of the earlier problem is a
-proof of the later one. Each such pair was swapped: the later part gets the
-problem with fewer assumptions (or the more general goal), the earlier part
-the one with more assumptions, which is usually easier. Swapping repeats until
-no such pair is left (three rounds). It moved 3,769 problems between parts;
-the part sizes did not change. Every swap is listed in `problems/00SWAPS` as
-`round problem from to partner`.
-
-After the swaps no problem in devel or holdout can be proved by a proof of a
-train problem as it stands, and none in holdout by a proof of a devel
-problem. About 72% of devel and holdout still have their goal somewhere in
-train, but always with more axioms. A train proof that happens not to use the
-extra axioms is then a proof of the evaluation problem too. The 1 s baseline
-solve rates of the parts did not change (E 31%, Prover9 32% in each part).
-The holdout originals are no longer kept whole.
+As upstream says: the problem database was built with scripts, and there
+could be some exceptional cases with errors.
