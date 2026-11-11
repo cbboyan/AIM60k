@@ -146,6 +146,7 @@ as upstream, written in a canonical form:
   line `L` of its Prover9 proof (the comment in the LADR file).
 - Equations, literals and variables of the conjecture are put in a fixed order,
   so two problems are the same exactly when their files are identical apart
-  from the header line.
+  from the name of the conjecture.
+- The files have no comments; the symbols are explained in `axioms.ax`.
 
 The LADR files are unchanged.

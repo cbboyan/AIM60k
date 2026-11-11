@@ -8,10 +8,10 @@ For every problem X__goal_N:
 - the conjecture is written in a canonical form (fixed orientation, literal
   order and variable names) and named goal_N_line_L, where L is the proof line
   given by the comment in the LADR file;
-- the header names the problem.
+- comments are dropped (symbols and names are documented in axioms.ax).
 
-Two problems are then duplicates exactly when their axiom and conjecture lines
-are identical. The LADR files are only read.
+Two problems are then duplicates exactly when their files are identical apart
+from the name of the conjecture. The LADR files are only read.
 
 Usage: normalize.py [--problems DIR] [--out DIR] [--check]
   --out DIR   write the TPTP files to DIR instead of rewriting them in place
@@ -168,13 +168,7 @@ def normalize(name, tptp, ladr, order, formula, by_canon):
     n, line = ladr_line(ladr)
     if not name.endswith("__goal_%d" % n):
         raise ValueError("LADR comment says goal_%d" % n)
-    orig = name.rsplit("__goal_", 1)[0]
-    out = [
-        "%% AIM60k problem %s: goal %d of original %s, proof line %d." % (name, n, orig, line),
-        "% Axiom names and symbols: see axioms.ax.",
-        "",
-    ]
-    out += ["cnf(%s,axiom,%s)." % (x, formula[x]) for x in order if x in names]
+    out = ["cnf(%s,axiom,%s)." % (x, formula[x]) for x in order if x in names]
     out.append("fof(goal_%d_line_%d,conjecture,%s)." % (n, line, goal_formula(canon(goal))))
     return "\n".join(out) + "\n"
 

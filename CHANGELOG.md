@@ -10,6 +10,8 @@ Changes of this fork relative to the upstream AIM60k release (commit `33eb3c5`).
   - axioms in a fixed order; the two variants of the `aim_lr` axiom written
     the same way;
   - conjecture named `goal_N_line_L` and written in a canonical form;
-  - a one-line header naming the problem instead of the `ladr_to_tptp`
-    symbol table (now in `axioms.ax`).
+  - no comments: the `ladr_to_tptp` symbol table is dropped (the symbols are
+    documented in `axioms.ax`).
 - The problems are logically unchanged; the LADR files are untouched.
+- The TPTP files now pass `tptp4X` (upstream's repeated formula name `sos` is
+  rejected as a duplicate name).
