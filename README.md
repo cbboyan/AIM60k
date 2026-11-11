@@ -170,7 +170,24 @@ to the one kept in its place.
 | holdout | 5,880    | 136     | 5,744  |
 | total   | 51,784   | 10,274  | 41,510 |
 
-No problem now occurs twice, within a part or across parts. About a quarter of
-devel and holdout still has its goal in train with a subset of the axioms;
-this is not yet fixed. The baseline lists `00E26_1s` and `00P9_1s` were only
-filtered; the results were not rerun.
+No problem now occurs twice, within a part or across parts. The baseline
+lists `00E26_1s` and `00P9_1s` were only filtered; the results were not rerun.
+
+**Swaps against leaks** (`scripts/swap.py`). Different problems can still
+share a goal. If a problem in an earlier part (train before devel before
+holdout) has the same goal as a problem in a later part, or a more general
+one, and a subset of its axioms, then a proof of the earlier problem is a
+proof of the later one. Each such pair was swapped: the later part gets the
+problem with fewer assumptions (or the more general goal), the earlier part
+the one with more assumptions, which is usually easier. Swapping repeats until
+no such pair is left (three rounds). It moved 3,769 problems between parts;
+the part sizes did not change. Every swap is listed in `problems/00SWAPS` as
+`round problem from to partner`.
+
+After the swaps no problem in devel or holdout can be proved by a proof of a
+train problem as it stands, and none in holdout by a proof of a devel
+problem. About 72% of devel and holdout still have their goal somewhere in
+train, but always with more axioms. A train proof that happens not to use the
+extra axioms is then a proof of the evaluation problem too. The 1 s baseline
+solve rates of the parts did not change (E 31%, Prover9 32% in each part).
+The holdout originals are no longer kept whole.

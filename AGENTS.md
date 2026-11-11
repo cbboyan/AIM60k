@@ -25,6 +25,8 @@ Everything is in `problems/`:
 - `00E26_1s`, `00P9_1s`: names solved by E 2.6 / Prover9 at 1 s (upstream's runs,
   on the files before normalization).
 
+`00SWAPS`: the swaps made by `scripts/swap.py` (`round problem from to partner`).
+
 `dups/problems/` mirrors `problems/` for the 10,274 duplicates removed by
 `scripts/dedup.py` (same file and list layout), plus `00DUPS`: `removed kept` per
 line. `problems/` + `dups/problems/` together give back upstream's 51,784.
@@ -59,9 +61,15 @@ Facts about the files:
 - Only ~16.7k distinct goals; ~6.7k goals occur with more than one axiom set. If one
   copy's axioms are a subset of another's, a proof of the smaller one proves the
   larger one too (a split leak if the smaller is in train and the larger outside).
-- The split was made per original (`selsecret.py`, not in the repo). After dedup, about
-  25% of devel and holdout still leak: the same goal is in train with a subset of the
-  axioms (`subset`) or a more general one (`instance`).
+- The split was made per original (`selsecret.py`, not in the repo). After dedup,
+  `swap.py` swapped every pair where an earlier part (train < devel < holdout) has the
+  same or a more general goal with a subset of the axioms; 3 rounds, 3,769 problems
+  moved, sizes unchanged, log `problems/00SWAPS`. Now 0 such leaks train→devel,
+  train→holdout, devel→holdout. Still ~72% of devel/holdout have their goal in train
+  with *more* axioms (not a guaranteed leak; accepted by the user). Holdout originals
+  are no longer whole.
+- Pipeline order: `normalize.py` → `dedup.py` → `swap.py`. `swap.py` is a no-op when
+  rerun; a changed problem set may need it again (it appends to `00SWAPS`).
 
 ## Tools
 

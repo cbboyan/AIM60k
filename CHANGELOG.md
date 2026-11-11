@@ -23,6 +23,10 @@ Changes of this fork relative to the upstream AIM60k release (commit `33eb3c5`).
   distinct. One copy of each is kept (holdout before devel before train); the
   10,274 others are moved to `dups/`, with `dups/problems/00DUPS` mapping each
   to the problem kept. Train 31,466, devel 4,300, holdout 5,744.
+- Swapped problems between parts with `scripts/swap.py` so that no problem
+  leaks into a later part (same or more general goal from a subset of the
+  axioms): 3,769 problems moved, part sizes unchanged, swaps logged in
+  `problems/00SWAPS`. The later part keeps the variant with fewer assumptions.
 - The problems are logically unchanged; the LADR files are untouched.
 - The TPTP files now pass `tptp4X` (upstream's repeated formula name `sos` is
   rejected as a duplicate name).
